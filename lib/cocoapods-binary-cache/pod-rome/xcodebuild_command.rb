@@ -97,7 +97,7 @@ module PodPrebuild
       output = "#{output_path(target)}/#{target.product_module_name}.xcframework"
       FileUtils.rm_rf(output)
 
-      cmd = ["xcodebuild", "-create-xcframework", "-allow-internal-distribution"]
+      cmd = ["xcodebuild", "-create-xcframework"]
 
       # for each sdk, the order of params must be -framework then -debug-symbols
       # to prevent duplicated file error when copying dSYMs
@@ -113,6 +113,9 @@ module PodPrebuild
           bcsymbolmaps = bcsymbolmap_paths_of(target, sdk)
           cmd += bcsymbolmaps.map { |bcsymbolmap| "-debug-symbols #{bcsymbolmap.shellescape}" }
         end
+        
+        cmd += "SKIP_INSTALL=NO"
+        cmd += "BUILD_LIBRARY_FOR_DISTRIBUTION=YES"
       end
 
       cmd << "-output" << output
