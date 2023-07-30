@@ -113,9 +113,6 @@ module PodPrebuild
           bcsymbolmaps = bcsymbolmap_paths_of(target, sdk)
           cmd += bcsymbolmaps.map { |bcsymbolmap| "-debug-symbols #{bcsymbolmap.shellescape}" }
         end
-        
-        cmd += "SKIP_INSTALL=NO"
-        cmd += "BUILD_LIBRARY_FOR_DISTRIBUTION=YES"
       end
 
       cmd << "-output" << output
